@@ -7,8 +7,12 @@ app = Flask(__name__)
 token = vault.secret['token']
 
 def fui_mencionado(body):
-    if ("@eccodando_bot" in body['message']['text']):
-        return True
+
+    if "text" in body['message']:
+        if ("@eccodando_bot" in body['message']['text']):
+            return True
+        else:
+            return False
     else:
         return False
 
