@@ -1,3 +1,7 @@
+#Remove Vault from Commit
+
+config/vault.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
