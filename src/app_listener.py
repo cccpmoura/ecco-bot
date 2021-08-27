@@ -1,50 +1,24 @@
 from flask import Flask, request
 import requests
 import config.vault as vault
+from integration.telegram import TelegramIntegration, handle_webhook_event
 
 app = Flask(__name__)
-
 token = vault.secret['token']
-
-def fui_mencionado(body):
-
-    if "text" in body['message']:
-        if ("@eccodando_bot" in body['message']['text']):
-            return True
-        else:
-            return False
-    else:
-        return False
-
-
-url_sendMessage = f"https://api.telegram.org/bot{token}/sendMessage"
+telegram = TelegramIntegration(token)
 
 @app.route('/', methods=['GET'])
 def index():
     return "O Servidor está no AR."
 
 @app.route('/events-listener', methods=['POST'])
-def event_listener():
-    
+def events_listener():
     body = request.get_json()
-    
-    print(body)
-    if "message" in body:
-        dados = {'chat_id': body["message"]["chat"]["id"], 'text' : "Olá Transeunte Virtual, eu sou o EccoBot e estou aprendendo!!!"}
-        primeiro_nome = body['message']['from']['first_name']
-        print(f"Recebi um evento de: {primeiro_nome}")
-        if body["message"]["chat"]["type"] == "private":
-                    
-                    print(f"Mandando msg para {primeiro_nome}")
-                    requests.post(url_sendMessage, dados).json()
-                    return 'Ok'
-
-        if fui_mencionado(body):
-            print("Respondendo a mensagem que fui mencionado")
-            requests.post(url_sendMessage, dados).json()
-            return 'OK'
-        
-    return "OK"
+    chat_id, msg_from_name, msg, shouldRespond = handle_webhook_event(body)
+    if shouldRespond:
+         telegram.send_text_message(body["message"]["chat"]["id"], "Olá Transeunte Virtual, eu sou o EccoBot e estou aprendendo!!!")
+    return 'Ok'            
+    print(body) 
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000, host="0.0.0.0")
