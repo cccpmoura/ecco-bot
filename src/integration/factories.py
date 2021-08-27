@@ -1,0 +1,1 @@
+# Implementar integrações com Fontes externas (mongo)

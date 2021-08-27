@@ -1,0 +1,23 @@
+{
+    "1" : {
+        "message" : "Saudação transeunte não virtual, para iniciar me diga seu apelido. =D\n",
+        "variavel": "apelido",
+        "function": {"nome" : "salva_usuario", "parametro": "apelido"},
+        "exit_conditions" : {
+            
+        }
+    },
+    "2" : {
+        "message" : "Qual a sua data de nascimento?\n",
+        "variavel" : "data_nascimento"
+    },
+    "3" : {
+        "message" : "Qual o seu filosofo(a) favorito(a)?\n",
+        "variavel" : "filosofo"
+    },
+    "4" : {
+        "message" : "Qual o sua cor favorita?\n",
+        "variavel" : "cor"
+    }
+
+}
